@@ -21,7 +21,7 @@ class Sort2DMesh
   end
 
   def even_odd_row_sort(n)
-    Math.log2(n)-2.times do #q-2 times we iterate through our rows in parallel to sort
+    Math.log2(n).to_i.times do #q times we iterate through our rows in parallel to sort
       0.upto(Math.log2(n)-1) do |row| #do in parallel
         if row % 2 == 0
           0.upto(2) do |col|
@@ -45,7 +45,7 @@ class Sort2DMesh
   end
 
   def even_odd_column_sort(n)
-    Math.log2(n)-2.times do #q-2 times we iterate through our columns in parallel to sort
+    Math.log2(n).to_i.times do #q times we iterate through our columns in parallel to sort
       0.upto(Math.log2(n)-1) do |col| #do in parallel
         if col % 2 == 0
           0.upto(2) do |row|
