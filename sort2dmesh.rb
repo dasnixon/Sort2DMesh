@@ -1,10 +1,11 @@
 class Sort2DMesh
   def initialize
+    #creates our initial mesh as an instance variable to be used throughout our class
     @mesh = [[6, 1, 5, 7],[3, 9, 5, 8], [4, 2, 9, 3],[1, 6, 3, 8]]
   end
 
   def sort_mesh
-    print_mesh("Initial mesh:")
+    print_mesh("Initial mesh:") #prints out the intial mesh
     0.upto(Math.log2(@mesh.length**2)) do |x| #goes from 0 upto log_2_n: where n is 16, so upto 4 in this case
       if x % 2 == 0 #if even value of x do the even odd row sort and print out the resulting mesh
         even_odd_row_sort(@mesh.length**2)
@@ -16,7 +17,7 @@ class Sort2DMesh
     end
     print_mesh("Final mesh:") #after performing the even odd row/column sorts print out the final mesh
     print_snake #prints out a string in snake order
-    discussion
+    discussion #prints out a discussion of the complexity of the sort2dmesh
   end
 
   def even_odd_row_sort(n)
@@ -24,16 +25,16 @@ class Sort2DMesh
       0.upto(Math.log2(n)-1) do |row| #do in parallel
         if row % 2 == 0
           0.upto(2) do |col|
-            if @mesh[row][col] >= @mesh[row][col+1]
-              temp = @mesh[row][col+1]
+            if @mesh[row][col] > @mesh[row][col+1]
+              temp = @mesh[row][col+1] #holds a temp value to be exchanged
               @mesh[row][col+1] = @mesh[row][col]
               @mesh[row][col] = temp
             end
           end
         else
           0.upto(2) do |col|
-            if @mesh[row][col] <= @mesh[row][col+1]
-              temp = @mesh[row][col+1]
+            if @mesh[row][col] < @mesh[row][col+1]
+              temp = @mesh[row][col+1] #holds a temp value to be exchanged
               @mesh[row][col+1]= @mesh[row][col]
               @mesh[row][col] = temp
             end
@@ -48,16 +49,16 @@ class Sort2DMesh
       0.upto(Math.log2(n)-1) do |col| #do in parallel
         if col % 2 == 0
           0.upto(2) do |row|
-            if @mesh[row][col] >= @mesh[row+1][col]
-              temp = @mesh[row+1][col]
+            if @mesh[row][col] > @mesh[row+1][col]
+              temp = @mesh[row+1][col] #holds a temp value to be exchanged
               @mesh[row+1][col] = @mesh[row][col]
               @mesh[row][col] = temp
             end
           end
         else
           0.upto(2) do |row|
-            if @mesh[row][col] >= @mesh[row+1][col]
-              temp = @mesh[row+1][col]
+            if @mesh[row][col] > @mesh[row+1][col]
+              temp = @mesh[row+1][col] #holds a temp value to be exchanged
               @mesh[row+1][col]= @mesh[row][col]
               @mesh[row][col] = temp
             end
@@ -67,6 +68,7 @@ class Sort2DMesh
     end
   end
 
+  #prints out the mesh and a given message
   def print_mesh(message)
     puts "#{message}"
     @mesh.each_index do |row|
@@ -77,6 +79,7 @@ class Sort2DMesh
     end
   end
 
+  #prints out a string of the snake order of the final mesh
   def print_snake
     puts "Snake order:"
     snake_string = ""
@@ -94,6 +97,7 @@ class Sort2DMesh
     puts "#{snake_string[0..-3]}"
   end
 
+  #discusses the sort2dmesh function and the complexity
   def discussion
     puts "For the sorting a 2D mesh the W(n) = sqrt(n)*log(n). Each row and column sort costs us only 1 step\nsince they are run in parallel. These parallel sorts have no meaningful effect on the complexity. The logn"
     puts "comes from the initial loop in the sort_mesh function (line 8). We loop from 0 to log2(n). The sqrt(n)\ncomes from lines 23 and 47. In order to make sure we compare every value in each row and column"
