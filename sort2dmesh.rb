@@ -1,12 +1,12 @@
 class Sort2DMesh
   def initialize
     #creates our initial mesh as an instance variable to be used throughout our class
-    @mesh = [[6, 1, 5, 7],[3, 9, 5, 8], [4, 2, 9, 3],[1, 6, 3, 8]]
+    @mesh = [[6, 1, 5, 7, 4, 3, 2, 9],[4, 3, 4, 5, 3, 9, 5, 8], [3, 7, 8, 6, 4, 2, 9, 3],[1, 7, 5, 3, 9, 6, 3, 8], [1, 6, 9, 3, 7, 3, 3, 1], [1, 6, 4, 3, 6, 6, 3, 9], [9, 8, 4, 2, 1, 8, 3, 8], [1, 2, 5, 7, 9, 4, 4, 9]]
   end
 
   def sort_mesh
     print_mesh("Initial mesh:") #prints out the intial mesh
-    0.upto(Math.log2(@mesh.length**2)) do |x| #goes from 0 upto log_2_n: where n is 16, so upto 4 in this case
+    0.upto(Math.log2(@mesh.length**2)) do |x| #goes from 0 upto log_2_n: where n is 64, so upto 8 in this case
       if x % 2 == 0 #if even value of x do the even odd row sort and print out the resulting mesh
         even_odd_row_sort(@mesh.length**2)
         print_mesh("Even odd row sort:")
@@ -16,15 +16,15 @@ class Sort2DMesh
       end
     end
     print_mesh("Final mesh:") #after performing the even odd row/column sorts print out the final mesh
-    print_snake #prints out a string in snake order
+    print_snake(@mesh.length**2) #prints out a string in snake order
     discussion #prints out a discussion of the complexity of the sort2dmesh
   end
 
   def even_odd_row_sort(n)
-    Math.log2(n).to_i.times do #q times we iterate through our rows in parallel to sort
-      0.upto(Math.log2(n)-1) do |row| #do in parallel
+    Math.sqrt(n).to_i.times do #q times we iterate through our rows in parallel to sort
+      0.upto(Math.sqrt(n)-1) do |row| #do in parallel
         if row % 2 == 0
-          0.upto(2) do |col|
+          0.upto(Math.sqrt(n)-2) do |col|
             if @mesh[row][col] > @mesh[row][col+1]
               temp = @mesh[row][col+1] #holds a temp value to be exchanged
               @mesh[row][col+1] = @mesh[row][col]
@@ -32,7 +32,7 @@ class Sort2DMesh
             end
           end
         else
-          0.upto(2) do |col|
+          0.upto(Math.sqrt(n)-2) do |col|
             if @mesh[row][col] < @mesh[row][col+1]
               temp = @mesh[row][col+1] #holds a temp value to be exchanged
               @mesh[row][col+1]= @mesh[row][col]
@@ -45,10 +45,10 @@ class Sort2DMesh
   end
 
   def even_odd_column_sort(n)
-    Math.log2(n).to_i.times do #q times we iterate through our columns in parallel to sort
-      0.upto(Math.log2(n)-1) do |col| #do in parallel
+    Math.sqrt(n).to_i.times do #q times we iterate through our columns in parallel to sort
+      0.upto(Math.sqrt(n)-1) do |col| #do in parallel
         if col % 2 == 0
-          0.upto(2) do |row|
+          0.upto(Math.sqrt(n)-2) do |row|
             if @mesh[row][col] > @mesh[row+1][col]
               temp = @mesh[row+1][col] #holds a temp value to be exchanged
               @mesh[row+1][col] = @mesh[row][col]
@@ -56,7 +56,7 @@ class Sort2DMesh
             end
           end
         else
-          0.upto(2) do |row|
+          0.upto(Math.sqrt(n)-2) do |row|
             if @mesh[row][col] > @mesh[row+1][col]
               temp = @mesh[row+1][col] #holds a temp value to be exchanged
               @mesh[row+1][col]= @mesh[row][col]
@@ -80,16 +80,17 @@ class Sort2DMesh
   end
 
   #prints out a string of the snake order of the final mesh
-  def print_snake
+  def print_snake(n)
     puts "Snake order:"
     snake_string = ""
-    0.upto(3) do |x|
+    0.upto(Math.sqrt(n)-1) do |x|
       if x % 2 == 0
-        0.upto(3) do |col|
+        0.upto(Math.sqrt(n).to_i-1) do |col|
           snake_string << "#{@mesh[x][col]}, "
         end
       else
-        3.downto(0) do |col|
+        from = Math.sqrt(n).to_i - 1
+        from.downto(0) do |col|
           snake_string << "#{@mesh[x][col]}, "
         end
       end
