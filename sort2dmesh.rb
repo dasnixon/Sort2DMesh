@@ -99,9 +99,8 @@ class Sort2DMesh
 
   #discusses the sort2dmesh function and the complexity
   def discussion
-    puts "For the sorting a 2D mesh the W(n) = sqrt(n)*log(n). Each row and column sort costs us only 1 step\nsince they are run in parallel. These parallel sorts have no meaningful effect on the complexity. The logn"
-    puts "comes from the initial loop in the sort_mesh function (line 8). We loop from 0 to log2(n). The sqrt(n)\ncomes from lines 23 and 47. In order to make sure we compare every value in each row and column"
-    puts "we have to do q-2 iterations of parallel sorting. Therfore this gives us a total of q iterations.\nWell, n = q^2, and so sqrt(n) = q. With q iterations this is how are W(n) complexity is sqrt(n)*log(n)"
+    puts "For the sorting a 2D mesh the W(n) = sqrt(n)*log(n) + sqrt(n). EvenOddRowSort (line 23) and\nEvenOddColumnSort (line 47) each perform sqrt(n) parallel comparison steps."
+    puts "The Sort2dMesh or in our case sort_mesh (line 7) function itself involes log_2_(n) + 1 steps.\nThis is how we get the worst case complexity as mentioned before."
   end
 end
 
